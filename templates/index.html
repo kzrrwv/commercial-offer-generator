@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Генератор коммерческих предложений</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1>📄 Генератор коммерческих предложений</h1>
+        
+        <form id="offerForm" method="POST" action="/generate">
+            <!-- Шаг 1: Основные данные -->
+            <div class="form-section">
+                <h2>📋 Реквизиты</h2>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="kp_number">Номер КП *</label>
+                        <input type="text" id="kp_number" name="kp_number" 
+                               placeholder="например: 2026-001" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="kp_date">Дата КП *</label>
+                        <input type="date" id="kp_date" name="kp_date" required>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="client_name">Наименование клиента *</label>
+                    <input type="text" id="client_name" name="client_name" 
+                           placeholder="ООО 'Ромашка'" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="preamble">Преамбула (вводный текст)</label>
+                    <textarea id="preamble" name="preamble" rows="3" 
+                              placeholder="Уважаемый(ая) ..."></textarea>
+                </div>
+            </div>
+            
+            <!-- Шаг 2: Товары/Услуги -->
+            <div class="form-section">
+                <h2>📦 Товары/Услуги</h2>
+                <div id="itemsContainer">
+                    <!-- Первая строка -->
+                    <div class="item-row">
+                        <input type="text" name="item_name[]" 
+                               placeholder="Наименование" class="item-name" onchange="calculateTotals()">
+                        <input type="number" name="item_price[]" 
+                               placeholder="Цена" class="item-price" step="0.01" oninput="calculateTotals()">
+                        <input type="number" name="item_qty[]" 
+                               placeholder="Кол-во" class="item-qty" step="1" min="1" oninput="calculateTotals()">
+                        <span class="item-sum">0.00</span>
+                        <button type="button" class="remove-item" 
+                                onclick="removeItem(this)" disabled>✕</button>
+                    </div>
+                </div>
+                <button type="button" id="addItemBtn" onclick="addItem()">
+                    ➕ Добавить позицию
+                </button>
+            </div>
+            
+            <!-- Шаг 3: Итоги -->
+            <div class="form-section">
+                <h2>💰 Итоги</h2>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="total_sum">Итого:</label>
+                        <input type="text" id="total_sum" name="total_sum" 
+                               readonly value="0.00" class="total-field">
+                    </div>
+                    <div class="form-group">
+                        <label for="vat_rate">Ставка НДС:</label>
+                        <select id="vat_rate" name="vat_rate" onchange="calculateTotals()">
+                            <option value="0">0%</option>
+                            <option value="5">5%</option>
+                            <option value="22" selected>22%</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="vat_amount">НДС:</label>
+                        <input type="text" id="vat_amount" readonly value="0.00" class="total-field">
+                    </div>
+                    <div class="form-group">
+                        <label for="grand_total">Всего к оплате:</label>
+                        <input type="text" id="grand_total" readonly value="0.00" class="total-field grand-total">
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Шаг 4: Дополнительная информация -->
+            <div class="form-section">
+                <h2>📌 Дополнительная информация</h2>
+                
+                <div class="form-group">
+                    <label for="delivery_time">Срок поставки</label>
+                    <input type="text" id="delivery_time" name="delivery_time" 
+                           placeholder="5-10 рабочих дней">
+                </div>
+                
+                <div class="form-group">
+                    <label for="valid_until">Дата действия предложения</label>
+                    <input type="date" id="valid_until" name="valid_until">
+                </div>
+                
+                <div class="form-group">
+                    <label for="manager_name">Руководитель</label>
+                    <input type="text" id="manager_name" name="manager_name" 
+                           placeholder="Иванов И.И.">
+                </div>
+            </div>
+            
+            <!-- Кнопка отправки -->
+            <button type="submit" id="generateBtn">
+                🚀 Сгенерировать КП
+            </button>
+        </form>
+        
+        <div id="loading" style="display: none; text-align: center; margin-top: 20px;">
+            <div class="loading-spinner"></div>
+            <p style="margin-top: 10px; color: #666;">⏳ Идет генерация... Пожалуйста, подождите</p>
+        </div>
+    </div>
+    
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>
