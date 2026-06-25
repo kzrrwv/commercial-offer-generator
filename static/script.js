@@ -1,7 +1,5 @@
-// static/script.js
 let itemCounter = 1;
 
-// Инициализация при загрузке страницы
 document.addEventListener('DOMContentLoaded', function() {
     // Автоматическое заполнение даты
     const today = new Date().toISOString().split('T')[0];
@@ -10,24 +8,20 @@ document.addEventListener('DOMContentLoaded', function() {
         dateInput.value = today;
     }
     
-    // Инициализация расчета
     calculateTotals();
     updateRemoveButtons();
     
-    // Обработчик отправки формы
     document.getElementById('offerForm').addEventListener('submit', function(e) {
-        // Валидация
+
         if (!validateForm()) {
             e.preventDefault();
             return;
         }
         
-        // Показываем загрузку
         const btn = document.getElementById('generateBtn');
         btn.disabled = true;
         btn.textContent = '⏳ Генерация...';
         
-        // Восстанавливаем кнопку через 30 секунд (на случай ошибки)
         setTimeout(() => {
             btn.disabled = false;
             btn.textContent = '🚀 Сгенерировать КП';
@@ -35,7 +29,6 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 });
 
-// Функция добавления позиции
 function addItem() {
     const container = document.getElementById('itemsContainer');
     const row = document.createElement('div');
@@ -56,7 +49,6 @@ function addItem() {
     updateRemoveButtons();
 }
 
-// Функция удаления позиции
 function removeItem(button) {
     const row = button.parentElement;
     const rows = document.querySelectorAll('.item-row');
@@ -70,7 +62,6 @@ function removeItem(button) {
     }
 }
 
-// Обновление состояния кнопок удаления
 function updateRemoveButtons() {
     const rows = document.querySelectorAll('.item-row');
     const buttons = document.querySelectorAll('.remove-item');
@@ -80,7 +71,6 @@ function updateRemoveButtons() {
     });
 }
 
-// Функция расчета итогов
 function calculateTotals() {
     const rows = document.querySelectorAll('.item-row');
     let total = 0;
@@ -113,9 +103,7 @@ function calculateTotals() {
     document.getElementById('grand_total').value = grandTotal.toFixed(2);
 }
 
-// Валидация формы перед отправкой
 function validateForm() {
-    // Проверяем обязательные поля
     const kpNumber = document.getElementById('kp_number').value.trim();
     const kpDate = document.getElementById('kp_date').value;
     const clientName = document.getElementById('client_name').value.trim();
@@ -125,7 +113,6 @@ function validateForm() {
         return false;
     }
     
-    // Проверяем наличие товаров
     const rows = document.querySelectorAll('.item-row');
     let hasValidItem = false;
     let errors = [];
@@ -156,7 +143,6 @@ function validateForm() {
     return true;
 }
 
-// Функция для форматирования чисел
 function formatNumber(num) {
     return num.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, " ");
 }

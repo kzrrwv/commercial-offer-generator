@@ -8,12 +8,11 @@
 </head>
 <body>
     <div class="container">
-        <h1>📄 Генератор коммерческих предложений</h1>
+        <h1> Генератор коммерческих предложений</h1>
         
         <form id="offerForm" method="POST" action="/generate">
-            <!-- Шаг 1: Основные данные -->
             <div class="form-section">
-                <h2>📋 Реквизиты</h2>
+                <h2> Реквизиты</h2>
                 
                 <div class="form-row">
                     <div class="form-group">
@@ -40,11 +39,9 @@
                 </div>
             </div>
             
-            <!-- Шаг 2: Товары/Услуги -->
             <div class="form-section">
-                <h2>📦 Товары/Услуги</h2>
+                <h2> Товары/Услуги</h2>
                 <div id="itemsContainer">
-                    <!-- Первая строка -->
                     <div class="item-row">
                         <input type="text" name="item_name[]" 
                                placeholder="Наименование" class="item-name" onchange="calculateTotals()">
@@ -58,13 +55,12 @@
                     </div>
                 </div>
                 <button type="button" id="addItemBtn" onclick="addItem()">
-                    ➕ Добавить позицию
+                     Добавить позицию
                 </button>
             </div>
-            
-            <!-- Шаг 3: Итоги -->
+
             <div class="form-section">
-                <h2>💰 Итоги</h2>
+                <h2> Итоги</h2>
                 
                 <div class="form-row">
                     <div class="form-group">
@@ -94,9 +90,8 @@
                 </div>
             </div>
             
-            <!-- Шаг 4: Дополнительная информация -->
             <div class="form-section">
-                <h2>📌 Дополнительная информация</h2>
+                <h2> Дополнительная информация</h2>
                 
                 <div class="form-group">
                     <label for="delivery_time">Срок поставки</label>
@@ -116,15 +111,14 @@
                 </div>
             </div>
             
-            <!-- Кнопка отправки -->
             <button type="submit" id="generateBtn">
-                🚀 Сгенерировать КП
+                 Сгенерировать КП
             </button>
         </form>
         
         <div id="loading" style="display: none; text-align: center; margin-top: 20px;">
             <div class="loading-spinner"></div>
-            <p style="margin-top: 10px; color: #666;">⏳ Идет генерация... Пожалуйста, подождите</p>
+            <p style="margin-top: 10px; color: #666;"> Идет генерация... Пожалуйста, подождите</p>
         </div>
     </div>
     

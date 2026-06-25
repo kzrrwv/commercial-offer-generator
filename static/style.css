@@ -1,4 +1,4 @@
-/* static/style.css */
+/* static/style.css - Новая версия с черно-сине-голубой гаммой */
 * {
     margin: 0;
     padding: 0;
@@ -7,7 +7,7 @@
 
 body {
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    background: linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 40%, #16213e 70%, #0f3460 100%);
     min-height: 100vh;
     padding: 40px 20px;
 }
@@ -15,37 +15,54 @@ body {
 .container {
     max-width: 900px;
     margin: 0 auto;
-    background: white;
+    background: #ffffff;
     border-radius: 20px;
     padding: 40px;
-    box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.7);
+    border: 1px solid rgba(59, 130, 246, 0.2);
 }
 
 h1 {
-    color: #333;
+    color: #0a0a0a;
     margin-bottom: 30px;
     font-size: 28px;
     text-align: center;
+    background: linear-gradient(135deg, #0a0a0a, #1a3a6a);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+h1::after {
+    content: '';
+    display: block;
+    width: 80px;
+    height: 4px;
+    background: linear-gradient(90deg, #1a3a6a, #3b82f6, #60a5fa);
+    margin: 10px auto 0;
+    border-radius: 4px;
 }
 
 h2 {
-    color: #555;
+    color: #1a3a6a;
     font-size: 18px;
     margin-bottom: 15px;
-    border-bottom: 2px solid #667eea;
+    border-bottom: 3px solid #1a3a6a;
     padding-bottom: 8px;
 }
 
 .form-section {
     margin-bottom: 30px;
     padding: 20px;
-    background: #f8f9fa;
+    background: #f8faff;
     border-radius: 12px;
     transition: all 0.3s;
+    border-left: 4px solid #3b82f6;
 }
 
 .form-section:hover {
-    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    box-shadow: 0 4px 20px rgba(26, 58, 106, 0.15);
+    border-left-color: #60a5fa;
 }
 
 .form-row {
@@ -61,8 +78,8 @@ h2 {
 .form-group label {
     display: block;
     margin-bottom: 5px;
-    color: #555;
-    font-weight: 500;
+    color: #1a2a4a;
+    font-weight: 600;
     font-size: 14px;
 }
 
@@ -71,19 +88,21 @@ h2 {
 .form-group select {
     width: 100%;
     padding: 10px 12px;
-    border: 2px solid #e0e0e0;
+    border: 2px solid #d0d8e8;
     border-radius: 8px;
     font-size: 14px;
     transition: all 0.3s;
     background: white;
+    color: #0a0a0a;
 }
 
 .form-group input:focus,
 .form-group textarea:focus,
 .form-group select:focus {
     outline: none;
-    border-color: #667eea;
-    box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+    border-color: #3b82f6;
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.15);
+    border-color: #1a3a6a;
 }
 
 .form-group textarea {
@@ -105,41 +124,45 @@ h2 {
     padding: 10px;
     background: white;
     border-radius: 8px;
-    border: 2px solid #e0e0e0;
+    border: 2px solid #d0d8e8;
     transition: all 0.3s;
 }
 
 .item-row:hover {
-    border-color: #667eea;
+    border-color: #3b82f6;
+    box-shadow: 0 2px 12px rgba(26, 58, 106, 0.1);
 }
 
 .item-row input {
     padding: 8px 10px;
-    border: 2px solid #f0f0f0;
+    border: 2px solid #e8ecf4;
     border-radius: 6px;
     font-size: 14px;
     transition: all 0.3s;
-    background: #fafafa;
+    background: #fafcff;
+    color: #0a0a0a;
 }
 
 .item-row input:focus {
     outline: none;
-    border-color: #667eea;
+    border-color: #3b82f6;
     background: white;
+    box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.1);
 }
 
 .item-sum {
     padding: 8px;
     text-align: right;
     font-weight: bold;
-    color: #333;
-    background: #f0f4ff;
+    color: #0a3a6a;
+    background: #e8f0fe;
     border-radius: 6px;
     font-size: 14px;
+    border: 1px solid #d0d8e8;
 }
 
 .remove-item {
-    background: #ff4757;
+    background: #dc2626;
     color: white;
     border: none;
     border-radius: 6px;
@@ -151,7 +174,7 @@ h2 {
 }
 
 .remove-item:hover:not(:disabled) {
-    background: #c0392b;
+    background: #b91c1c;
     transform: scale(1.1);
 }
 
@@ -161,7 +184,7 @@ h2 {
 }
 
 #addItemBtn {
-    background: #667eea;
+    background: #1a3a6a;
     color: white;
     border: none;
     padding: 10px 20px;
@@ -169,33 +192,37 @@ h2 {
     cursor: pointer;
     font-size: 14px;
     transition: all 0.3s;
+    font-weight: 600;
 }
 
 #addItemBtn:hover {
-    background: #5a67d8;
+    background: #0f3460;
     transform: translateY(-2px);
-    box-shadow: 0 5px 15px rgba(102, 126, 234, 0.3);
+    box-shadow: 0 5px 15px rgba(26, 58, 106, 0.3);
 }
 
 /* Итоги */
 .total-field {
-    background: #f8f9fa !important;
+    background: #f0f4ff !important;
     font-weight: bold !important;
     font-size: 16px !important;
-    color: #333 !important;
+    color: #0a2a4a !important;
+    border-color: #b0c4e8 !important;
 }
 
 .grand-total {
-    background: linear-gradient(135deg, #667eea, #764ba2) !important;
+    background: linear-gradient(135deg, #0a0a0a, #1a3a6a) !important;
     color: white !important;
     font-size: 18px !important;
+    border: 2px solid #3b82f6 !important;
+    font-weight: bold !important;
 }
 
 /* Кнопка генерации */
 #generateBtn {
     width: 100%;
     padding: 16px;
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    background: linear-gradient(135deg, #0a0a0a 0%, #1a3a6a 50%, #3b82f6 100%);
     color: white;
     border: none;
     border-radius: 12px;
@@ -204,11 +231,14 @@ h2 {
     cursor: pointer;
     transition: all 0.3s;
     margin-top: 10px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
 }
 
 #generateBtn:hover:not(:disabled) {
     transform: translateY(-2px);
-    box-shadow: 0 10px 30px rgba(102, 126, 234, 0.4);
+    box-shadow: 0 10px 30px rgba(26, 58, 106, 0.5);
+    background: linear-gradient(135deg, #1a1a2e 0%, #1a3a6a 50%, #60a5fa 100%);
 }
 
 #generateBtn:disabled {
@@ -254,8 +284,39 @@ h2 {
     display: inline-block;
     width: 40px;
     height: 40px;
-    border: 4px solid #f3f3f3;
-    border-top: 4px solid #667eea;
+    border: 4px solid #d0d8e8;
+    border-top: 4px solid #1a3a6a;
     border-radius: 50%;
     animation: spin 1s linear infinite;
+}
+
+/* Дополнительные стили для кнопок и акцентов */
+select option {
+    background: white;
+    color: #0a0a0a;
+}
+
+/* Стили для placeholder */
+::placeholder {
+    color: #8899bb;
+    opacity: 0.7;
+}
+
+/* Стили для скролла */
+::-webkit-scrollbar {
+    width: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: #e8ecf4;
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #1a3a6a;
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #0f3460;
 }

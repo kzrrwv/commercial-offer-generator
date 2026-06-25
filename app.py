@@ -1,4 +1,3 @@
-# app.py
 import os
 from datetime import datetime
 from io import BytesIO
@@ -11,13 +10,11 @@ from reportlab.pdfbase import pdfmetrics
 from reportlab.pdfbase.ttfonts import TTFont
 import logging
 
-# Загружаем переменные из .env
 load_dotenv()
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = os.getenv('SECRET_KEY', 'dev-secret-key')
 
-# Настройка логирования
 logging.basicConfig(level=logging.DEBUG)
 
 class OfferGenerator:
@@ -25,22 +22,19 @@ class OfferGenerator:
     
     def __init__(self):
         self.template_path = 'templates_pdf/template.pdf'
-        # Регистрируем шрифт для поддержки русского языка
         self.register_fonts()
     
     def register_fonts(self):
         """Регистрация шрифтов для поддержки кириллицы"""
         try:
-            # Пытаемся загрузить системный шрифт
             font_paths = [
-                'C:/Windows/Fonts/arial.ttf',  # Windows
-                'C:/Windows/Fonts/arialbd.ttf',  # Windows bold
-                '/System/Library/Fonts/Arial.ttf',  # Mac
-                '/usr/share/fonts/truetype/liberation/LiberationSans-Regular.ttf',  # Linux
-                '/usr/share/fonts/truetype/liberation/LiberationSans-Bold.ttf',  # Linux bold
+                'C:/Windows/Fonts/arial.ttf',
+                'C:/Windows/Fonts/arialbd.ttf',
+                '/System/Library/Fonts/Arial.ttf',
+                '/usr/share/fonts/truetype/liberation/LiberationSans-Regular.ttf',
+                '/usr/share/fonts/truetype/liberation/LiberationSans-Bold.ttf',
             ]
-            
-            # Пробуем загрузить шрифт
+
             for font_path in font_paths:
                 if os.path.exists(font_path):
                     if 'Bold' in font_path or 'bd' in font_path:
@@ -50,7 +44,6 @@ class OfferGenerator:
                     app.logger.info(f"Загружен шрифт: {font_path}")
                     return
             
-            # Если шрифты не найдены, используем стандартный Helvetica
             app.logger.warning("Русские шрифты не найдены, используется Helvetica")
             
         except Exception as e:
@@ -79,7 +72,6 @@ class OfferGenerator:
             except (ValueError, TypeError):
                 continue
         
-        # Расчет НДС
         vat_rate_decimal = float(vat_rate) / 100
         vat_amount = total_sum * vat_rate_decimal
         grand_total = total_sum + vat_amount
@@ -99,34 +91,27 @@ class OfferGenerator:
         output_buffer = BytesIO()
         c = canvas.Canvas(output_buffer, pagesize=A4)
         width, height = A4
-        
-        # Используем стандартные шрифты или загруженные
+
         try:
-            # Пытаемся использовать русский шрифт
             pdfmetrics.registerFont(TTFont('FreeSans', 'C:/Windows/Fonts/arial.ttf'))
             pdfmetrics.registerFont(TTFont('FreeSansBold', 'C:/Windows/Fonts/arialbd.ttf'))
             font_name = 'FreeSans'
             font_name_bold = 'FreeSansBold'
         except:
-            # Если не получилось, используем стандартный
             font_name = 'Helvetica'
             font_name_bold = 'Helvetica-Bold'
             app.logger.warning("Используется стандартный шрифт Helvetica")
         
-        # ===== ШАПКА =====
         c.setFont(font_name_bold, 16)
         c.drawString(50, height - 50, "КОММЕРЧЕСКОЕ ПРЕДЛОЖЕНИЕ")
         
-        # ===== РЕКВИЗИТЫ =====
         c.setFont(font_name, 11)
         c.drawString(50, height - 80, f"КП № {data.get('kp_number', '')}")
         c.drawString(350, height - 80, f"от {data.get('kp_date', '')}")
         
-        # ===== КЛИЕНТ =====
         c.setFont(font_name, 11)
         c.drawString(50, height - 110, f"Клиент: {data.get('client_name', '')}")
         
-        # ===== ПРЕАМБУЛА =====
         c.setFont(font_name, 10)
         preamble = data.get('preamble', '')
         y_position = height - 140
@@ -142,10 +127,8 @@ class OfferGenerator:
             c.drawString(50, y_position, "(Преамбула не указана)")
             y_position -= 15
         
-        # ===== ТАБЛИЦА =====
         y_position -= 20
-        
-        # Заголовки таблицы
+
         c.setFont(font_name_bold, 10)
         c.drawString(50, y_position, "№")
         c.drawString(80, y_position, "Наименование")
@@ -154,7 +137,6 @@ class OfferGenerator:
         c.drawString(420, y_position, "Сумма")
         c.line(50, y_position - 5, 500, y_position - 5)
         
-        # Строки таблицы
         y_position -= 20
         c.setFont(font_name, 9)
         
@@ -165,10 +147,8 @@ class OfferGenerator:
         else:
             for idx, item in enumerate(items, 1):
                 if y_position < 100:
-                    # Если места мало, добавляем новую страницу
                     c.showPage()
                     y_position = height - 50
-                    # Перерисовываем заголовки на новой странице
                     c.setFont(font_name_bold, 10)
                     c.drawString(50, y_position, "№")
                     c.drawString(80, y_position, "Наименование")
@@ -179,12 +159,10 @@ class OfferGenerator:
                     y_position -= 20
                     c.setFont(font_name, 9)
                 
-                # Получаем название товара
                 name = item.get('name', '')
                 if not name or name.strip() == '':
                     name = f"Товар {idx}"
                 
-                # Обрезаем длинные названия
                 if len(name) > 25:
                     name = name[:25] + '...'
                 
@@ -195,7 +173,6 @@ class OfferGenerator:
                 c.drawString(420, y_position, f"{item['sum']:.2f}")
                 y_position -= 15
         
-        # ===== ИТОГИ =====
         y_position -= 10
         c.setFont(font_name_bold, 11)
         c.drawString(350, y_position, f"ИТОГО: {data.get('total_sum', 0):.2f} руб.")
@@ -204,7 +181,6 @@ class OfferGenerator:
         y_position -= 15
         c.drawString(350, y_position, f"ВСЕГО к оплате: {data.get('grand_total', 0):.2f} руб.")
         
-        # ===== ДОПОЛНИТЕЛЬНАЯ ИНФОРМАЦИЯ =====
         y_position -= 30
         c.setFont(font_name, 10)
         delivery = data.get('delivery_time', '')
@@ -220,7 +196,6 @@ class OfferGenerator:
         else:
             c.drawString(50, y_position, "Предложение действует до: не указано")
         
-        # ===== ПОДВАЛ =====
         y_position = 50
         c.setFont(font_name, 10)
         manager = data.get('manager_name', '')
@@ -232,12 +207,9 @@ class OfferGenerator:
         c.line(50, y_position + 10, 200, y_position + 10)
         c.line(350, y_position + 10, 450, y_position + 10)
         
-        # Сохраняем PDF
         c.save()
         output_buffer.seek(0)
         return output_buffer
-
-# ===== МАРШРУТЫ =====
 
 @app.route('/')
 def index():
@@ -248,7 +220,6 @@ def index():
 def generate_offer():
     """Генерация коммерческого предложения"""
     try:
-        # Получаем данные из формы
         data = {
             'kp_number': request.form.get('kp_number', ''),
             'kp_date': request.form.get('kp_date', ''),
@@ -260,7 +231,6 @@ def generate_offer():
             'vat_rate': int(request.form.get('vat_rate', 22))
         }
         
-        # Получаем товары из формы
         item_names = request.form.getlist('item_name[]')
         item_prices = request.form.getlist('item_price[]')
         item_qtys = request.form.getlist('item_qty[]')
@@ -271,7 +241,6 @@ def generate_offer():
             price = item_prices[i] if i < len(item_prices) else '0'
             qty = item_qtys[i] if i < len(item_qtys) else '0'
             
-            # Добавляем только если есть название
             if name:
                 try:
                     items.append({
@@ -285,22 +254,16 @@ def generate_offer():
         if not items:
             return jsonify({'error': 'Добавьте хотя бы одну позицию с названием'}), 400
         
-        # Создаем генератор
         generator = OfferGenerator()
         
-        # Рассчитываем суммы
         totals = generator.calculate_totals(items, data['vat_rate'])
         
-        # Объединяем данные
         full_data = {**data, **totals}
         
-        # Генерируем PDF
         pdf_buffer = generator.generate_pdf(full_data)
         
-        # Готовим имя файла
         filename = f"KP_{data['kp_number']}_{datetime.now().strftime('%Y%m%d_%H%M%S')}.pdf"
         
-        # Отправляем файл на скачивание
         return send_file(
             pdf_buffer,
             mimetype='application/pdf',
