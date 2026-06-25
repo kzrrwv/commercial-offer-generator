@@ -1,7 +1,6 @@
 let itemCounter = 1;
 
 document.addEventListener('DOMContentLoaded', function() {
-    // Автоматическое заполнение даты
     const today = new Date().toISOString().split('T')[0];
     const dateInput = document.getElementById('kp_date');
     if (dateInput && !dateInput.value) {
@@ -125,7 +124,6 @@ function validateForm() {
         if (name && price > 0 && qty > 0) {
             hasValidItem = true;
         } else if (name || price > 0 || qty > 0) {
-            // Если какие-то поля заполнены, но не все
             errors.push(`Строка ${index + 1}: заполните все поля или очистите их`);
         }
     });

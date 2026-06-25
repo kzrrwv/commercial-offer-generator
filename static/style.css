@@ -1,4 +1,3 @@
-/* static/style.css - Новая версия с черно-сине-голубой гаммой */
 * {
     margin: 0;
     padding: 0;
@@ -110,7 +109,6 @@ h2 {
     min-height: 60px;
 }
 
-/* Таблица товаров */
 #itemsContainer {
     margin-bottom: 15px;
 }
@@ -201,7 +199,6 @@ h2 {
     box-shadow: 0 5px 15px rgba(26, 58, 106, 0.3);
 }
 
-/* Итоги */
 .total-field {
     background: #f0f4ff !important;
     font-weight: bold !important;
@@ -218,7 +215,6 @@ h2 {
     font-weight: bold !important;
 }
 
-/* Кнопка генерации */
 #generateBtn {
     width: 100%;
     padding: 16px;
@@ -246,7 +242,7 @@ h2 {
     cursor: not-allowed;
 }
 
-/* Адаптивность */
+
 @media (max-width: 768px) {
     .container {
         padding: 20px;
@@ -274,7 +270,6 @@ h2 {
     }
 }
 
-/* Анимация загрузки */
 @keyframes spin {
     0% { transform: rotate(0deg); }
     100% { transform: rotate(360deg); }
@@ -290,19 +285,16 @@ h2 {
     animation: spin 1s linear infinite;
 }
 
-/* Дополнительные стили для кнопок и акцентов */
 select option {
     background: white;
     color: #0a0a0a;
 }
 
-/* Стили для placeholder */
 ::placeholder {
     color: #8899bb;
     opacity: 0.7;
 }
 
-/* Стили для скролла */
 ::-webkit-scrollbar {
     width: 8px;
 }
